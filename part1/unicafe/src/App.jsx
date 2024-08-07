@@ -1,11 +1,13 @@
 import { useState } from 'react'
 
+//Header component -- renders the title passed as h1
 const Header = ({ title }) => {
   return (
     <h1>{title}</h1>
   )
 }
 
+//Button
 const Button = (props) => {
   return (
     <>

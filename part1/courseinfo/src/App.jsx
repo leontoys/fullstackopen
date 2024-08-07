@@ -1,49 +1,51 @@
-const Header = (props) => {
+//Header
+const Header = ({ course }) => {
   return (
     <>
-      <h1>{props.course}</h1>
+      <h1>{course}</h1>
     </>
   )
 }
 
-const Part = (props)=>{
+//Part - prints part and exercise
+const Part = ({ part, exercises }) => {
   return (
     <>
       <p>
-        {props.part} {props.exercises}
-      </p>    
+        {part} {exercises}
+      </p>
     </>
   )
 }
 
-const Content = (props) => {
-  props.content.forEach(element => {
-    <Part part={element.name} exercises={element.exercises}></Part>
-  });
+
+//read content one by one and calls Part to print
+const Content = ({ content }) => {
   return (
     <>
-      <Part part={props.content[0].name} exercises={props.content[0].exercises}></Part>
-      <Part part={props.content[1].name} exercises={props.content[1].exercises}></Part>
-      <Part part={props.content[2].name} exercises={props.content[2].exercises}></Part>      
+      <Part part={content[0].name} exercises={content[0].exercises}></Part>
+      <Part part={content[1].name} exercises={content[1].exercises}></Part>
+      <Part part={content[2].name} exercises={content[2].exercises}></Part>
     </>
   )
 }
 
 
-
-const Total = (props) => {
+//Total
+const Total = ({exercises}) => {
   let total = 0
-  props.exercises.forEach(element => {
+  exercises.forEach(element => {
     total += element.exercises
   });
   return (
     <>
-      <p>Number of exercises { total }</p>
+      <p>Number of exercises {total}</p>
     </>
   )
 }
 
 const App = () => {
+  //wrapped all course info into one object 
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -59,13 +61,13 @@ const App = () => {
         name: 'State of a component',
         exercises: 14
       }]
-    }
+  }
 
   return (
     <div>
       <Header course={course.name}></Header>
-      <Content content={course.parts}></Content>      
-      <Total exercises={course.parts}></Total> 
+      <Content content={course.parts}></Content>
+      <Total exercises={course.parts}></Total>
     </div>
   )
 }
