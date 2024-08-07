@@ -15,11 +15,19 @@ const Button = (props) => {
 }
 
 const Count = (props) => {
+  if(props.text === "positive")
   return (
     <>
-      <p>{props.text} {props.count}</p>
+      <p>{props.text} {props.count} %</p>
     </>
   )
+  else{
+    return (
+      <>
+        <p>{props.text} {props.count}</p>
+      </>
+    )    
+  }
 }
 
 const App = () => {
@@ -49,23 +57,39 @@ const App = () => {
     const updatedGood = good + 1
     setGood(updatedGood)
     updateAll()
+    updatePositive(updatedGood,all+1)
+    updateAverage(updatedGood,neutral,bad)
   }
 
   const handleNeutral = () => {
     const updatedNuetral = neutral + 1
     setNeutral(updatedNuetral)
     updateAll()   
+    updatePositive(good,all+1)
+    updateAverage(good,neutral,bad)
   }
 
   const handleBad = () => {
     const updatedBad = bad + 1
     setBad(updatedBad) 
     updateAll()
+    updatePositive(good,all+1)
+    updateAverage(good,neutral,updatedBad)
   }
 
   const updateAll = ()=>{
     const updatedAll = all + 1
     setAll(updatedAll)   
+  }
+
+  const updatePositive = (good,all)=>{
+    const updatedPositive = ( good / all ) * 100
+    setPositive(updatedPositive)
+  }
+
+  const updateAverage = (good,neutral,bad)=>{
+    const updatedAverage = ( ( good * 1 ) + ( neutral * 0 ) + ( bad * -1 ) ) / ( good + neutral + bad )
+    setAverage(updatedAverage)
   }
 
   return (
