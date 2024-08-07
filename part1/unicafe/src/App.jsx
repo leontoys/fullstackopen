@@ -7,26 +7,29 @@ const Header = ({ title }) => {
   )
 }
 
-//Button
-const Button = (props) => {
+//Button - for each button
+const Button = ({onClick,text}) => {
   return (
     <>
-      <button onClick={props.onClick}>{props.text} </button>
+      <button onClick={onClick}>{text} </button>
     </>
   )
 }
 
-const Buttons = (props) => {
+//Use Button and display all the buttons
+const Buttons = ({text,handlers}) => {
   return (
     <>
-      <Button text={props.text.good} onClick={props.handlers.handleGood}></Button>
-      <Button text={props.text.neutral} onClick={props.handlers.handleNeutral}></Button>
-      <Button text={props.text.bad} onClick={props.handlers.handleBad}></Button>
+      <Button text={text.good}    onClick={handlers.handleGood}></Button>
+      <Button text={text.neutral} onClick={handlers.handleNeutral}></Button>
+      <Button text={text.bad}     onClick={handlers.handleBad}></Button>
     </>
   )
 }
 
+//Statistics Line
 const StatisticLine = (props) => {
+  //For positive -- show %
   if (props.text === "positive")
     return (
       <>
@@ -46,9 +49,11 @@ const StatisticLine = (props) => {
       </>
     )
   }
-}
+} 
 
+//Show all statistics
 const Statistics = (props) => {
+  //If no feedback given, then show message
   if (props.statistics.all === 0) {
     return (
       <div>
@@ -56,7 +61,7 @@ const Statistics = (props) => {
       </div>
     )
   }
-  else {
+  else { //If feedbacks are given, then show statistics
     return (
       <div>
         <table>
@@ -74,6 +79,7 @@ const Statistics = (props) => {
   }
 }
 
+//Main App
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -83,11 +89,13 @@ const App = () => {
   const [average, setAverage] = useState(0)
   const [positive, setPositive] = useState(0)
 
+  //Titles
   const title = {
     feedback: "give feedback",
     statistics: "statistics",
   }
 
+  //Texts
   const text = {
     good: "good",
     neutral: "neutral",
@@ -97,6 +105,7 @@ const App = () => {
     positive: "positive"
   }
 
+  //Statistics variables
   const statistics = {
     good: good,
     neutral: neutral,
@@ -106,6 +115,7 @@ const App = () => {
     positive: positive
   }
 
+  //update good 
   const handleGood = () => {
     const updatedGood = good + 1
     setGood(updatedGood)
@@ -114,6 +124,7 @@ const App = () => {
     updateAverage(updatedGood, neutral, bad)
   }
 
+  //update neutral
   const handleNeutral = () => {
     const updatedNuetral = neutral + 1
     setNeutral(updatedNuetral)
@@ -122,6 +133,7 @@ const App = () => {
     updateAverage(good, updatedNuetral, bad)
   }
 
+  //update bad
   const handleBad = () => {
     const updatedBad = bad + 1
     setBad(updatedBad)
@@ -130,22 +142,26 @@ const App = () => {
     updateAverage(good, neutral, updatedBad)
   }
 
+  //Event Handlers
   const eventHanlders = {
     handleGood: handleGood,
     handleNeutral: handleNeutral,
     handleBad: handleBad
   }
 
+  //update all count
   const updateAll = (good, neutral, bad) => {
     const updatedAll = good + neutral + bad
     setAll(updatedAll)
   }
 
+  //update positive score
   const updatePositive = (good, neutral, bad) => {
     const updatedPositive = (good / (good + neutral + bad)) * 100
     setPositive(updatedPositive)
   }
 
+  //update average score
   const updateAverage = (good, neutral, bad) => {
     const updatedAverage = ((good * 1) + (neutral * 0) + (bad * -1)) / (good + neutral + bad)
     setAverage(updatedAverage)
