@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
-const Header = ({title})=>{
+const Header = ({ title }) => {
   return (
-      <h1>{title}</h1>
+    <h1>{title}</h1>
   )
 }
 
-const Button = (props)=>{
+const Button = (props) => {
   return (
     <>
       <button onClick={props.onClick}>{props.text} </button>
@@ -14,7 +14,7 @@ const Button = (props)=>{
   )
 }
 
-const Count = (props)=>{
+const Count = (props) => {
   return (
     <>
       <p>{props.text} {props.count}</p>
@@ -27,32 +27,46 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [all,setAll] = useState(0)
+  const [average,setAverage] = useState(0)
+  const [positive,setPositive] = useState(0)
 
   const title = {
-    feedback : "give feedback",
-    statistics : "statistics",
+    feedback: "give feedback",
+    statistics: "statistics",
   }
 
   const text = {
-    good : "good",
-    neutral : "neutral",
-    bad : "bad"
+    good: "good",
+    neutral: "neutral",
+    bad: "bad",
+    all : "all",
+    average : "average",
+    positive : "positive"
   }
 
-  const handleGood = ()=>{
+  const handleGood = () => {
     const updatedGood = good + 1
     setGood(updatedGood)
+    updateAll()
   }
 
-  const handleNeutral = ()=>{
+  const handleNeutral = () => {
     const updatedNuetral = neutral + 1
-    setNeutral(updatedNuetral)    
+    setNeutral(updatedNuetral)
+    updateAll()   
   }
-  
-  const handleBad = ()=>{
+
+  const handleBad = () => {
     const updatedBad = bad + 1
-    setBad(updatedBad)   
-  }  
+    setBad(updatedBad) 
+    updateAll()
+  }
+
+  const updateAll = ()=>{
+    const updatedAll = all + 1
+    setAll(updatedAll)   
+  }
 
   return (
     <div>
@@ -62,8 +76,11 @@ const App = () => {
       <Button text={text.bad} onClick={handleBad}></Button>
       <Header title={title.statistics}></Header>
       <Count text={text.good} count={good}></Count>
-      <Count text={text.neutral} count={neutral}></Count>      
+      <Count text={text.neutral} count={neutral}></Count>
       <Count text={text.bad} count={bad}></Count>
+      <Count text={text.all} count={all}></Count>
+      <Count text={text.average} count={average}></Count>
+      <Count text={text.positive} count={positive}></Count>
     </div>
   )
 }
