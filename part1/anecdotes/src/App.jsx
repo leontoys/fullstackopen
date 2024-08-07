@@ -1,17 +1,20 @@
 import { useState } from 'react'
 
+//Title
 const Title = ({title})=>{
   return(
     <h1>{title}</h1>
   )
 }
 
-const Button = (props)=>{
+//Button
+const Button = ({handleClick,text})=>{
   return(
-      <button onClick={props.handleClick}>{props.text}</button>
+      <button onClick={handleClick}>{text}</button>
   )
 }
 
+//Anectode line
 const Anecdote = ({text})=>{
   return(
     <div>
@@ -20,13 +23,16 @@ const Anecdote = ({text})=>{
   )
 }
 
+//Show votes for the anecdote
 const Votes = ({votes})=>{
   return(
     <p>has {votes} votes</p>
   )
 }
 
+//Main App Component
 const App = () => {
+  //list of anecdotes
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -38,20 +44,26 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
    
+  //state variables
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(Array(anecdotes.length).fill(0))
   const [highest,setHighest] = useState(0)
 
+  //handle next anecdote
   const handleClick = ()=>{
+    //get a random number and update the selection
     const random = Math.floor( Math.random() * anecdotes.length )
     setSelected(random)
   }
 
+  //handle vote
   const handleVote = ()=>{
+    //copy the selection and update the vote count
     const copy = [...points]
     copy[selected] += 1
     setPoints(copy)
-    const maxIndex = points.reduce((maxIndex, elem, i, arr) =>  elem > arr[maxIndex] ? i : maxIndex, 0)
+    //get the index of the anecdote with the maximum number of votes
+    const maxIndex = copy.reduce((maxIndex, elem, i, arr) =>  elem > arr[maxIndex] ? i : maxIndex, 0)
     setHighest(maxIndex)
     }
 
