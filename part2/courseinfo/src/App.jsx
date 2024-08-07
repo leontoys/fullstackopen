@@ -9,12 +9,21 @@ const Part = ({ part }) => {
   <p>{part.name} {part.exercises}</p>
 ) }
 
+const Total = ({parts}) =>{
+  return(
+    <div>
+      <h2>total of {parts.reduce((sum, current) => sum + current.exercises, 0)} exercises</h2>
+    </div>
+  )
+}
+
 const Content = ({ parts }) => {
   return (
     <div>
       {parts.map(part => 
       <Part key={part.id} part={part} /> 
       )}
+      <Total parts={parts}></Total>
     </div>
   )
 }
