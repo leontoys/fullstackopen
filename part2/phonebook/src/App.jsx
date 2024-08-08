@@ -2,21 +2,24 @@ import { useState } from 'react'
 
 const Person = ({ person }) => {
   return (
-    <p>{person.name}</p>
+    <p>{person.name} {person.number}</p>
   )
 }
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number : '040-1234567' }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+
 
   //on form submit
   const addPerson = (event) => {
     event.preventDefault()
     const newPerson = {
-      name: newName
+      name: newName,
+      number : newNumber
     }
 
     //check if the person exists in the array of objects
@@ -36,15 +39,19 @@ const App = () => {
       //add new person object
       setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewNumber('')
     }
   }
 
-
-
   //reads the name from the input field and sets
-  const handlePersonChange = (event) => {
+  const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
+
+  //reads the number from the input field and sets
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }  
 
   function areTheseObjectsEqual(first, second) {
     const al = Object.getOwnPropertyNames(first);
@@ -79,8 +86,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handlePersonChange} />
+          name: <input value={newName} onChange={handleNameChange} />
         </div>
+        <div>
+          number: <input value={newNumber} onChange={handleNumberChange} />
+        </div>        
         <div>
           <button type="submit" >add</button>
         </div>
