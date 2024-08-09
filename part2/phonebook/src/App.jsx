@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import Filter from './components/Filter';
 
-import PersonForm from './components/PersonForm'; 
+import PersonForm from './components/PersonForm';
 
 import Persons from './components/Persons';
 
@@ -10,19 +10,19 @@ import personService from "./services/persons";
 
 const App = () => {
   //state 
-  const [persons,setPersons] = useState([])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [newFilter,setNewFilter] = useState('')
+  const [newFilter, setNewFilter] = useState('')
 
   //useeffect
-      useEffect(() => {
-        personService
-        .getAll()
-        .then(initialPersons => {
-          setPersons(initialPersons)
-        })
-    }, [])
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
 
 
   //on form submit
@@ -30,60 +30,59 @@ const App = () => {
     event.preventDefault()
     const newPerson = {
       name: newName,
-      number : newNumber
+      number: newNumber
     }
 
     //check if the person exists in the array of objects
     let personAdded = false
-    let id = ''
+    let id = null
     //loop through and check if the person is already added
     persons.forEach(person => {
-      console.log(person.name,newPerson.name)
-      if ( (areTheseObjectsEqual(newPerson, person)) 
-         || (person.name === newPerson.name) ) { //added new condition to check if person exists
+      if ((areTheseObjectsEqual(newPerson, person))
+        || (person.name === newPerson.name)) { //added new condition to check if person exists
         //note - either add this condition or ignore id while comparing
         personAdded = true
         id = person.id
-        return 
+        return
       }
     }
     )
     if (personAdded) {
       //if person is already added ask
-      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
-      {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `)) {
         personService
-        .update(id, newPerson)
-        .then(returnedPerson => {
-          setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
-        })      
+          .update(id, newPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+          })
       }
     }
     else {
       //add new person object
       personService
-      .create(newPerson)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')   })
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
   //delete person
-  const deletePerson = (id,name)=>{
+  const deletePerson = (id, name) => {
     if (window.confirm(`Delete ${name}?`)) {
       personService
-      .deleteObject(id)
-      .then(deletedPerson=>{
-        //we will compare and remove the deleted person
-        const updatedPersons = persons.filter( (person) => 
-          !areTheseObjectsEqual(deletedPerson,person) //reverse the check for filtering 
-         )
-         //set with updated records
-         setPersons(updatedPersons) 
-      })
-    }    
+        .deleteObject(id)
+        .then(deletedPerson => {
+          //we will compare and remove the deleted person
+          const updatedPersons = persons.filter((person) =>
+            !areTheseObjectsEqual(deletedPerson, person) //reverse the check for filtering 
+          )
+          //set with updated records
+          setPersons(updatedPersons)
+        })      
+    }
   }
 
   //reads the name from the input field and sets
@@ -94,12 +93,12 @@ const App = () => {
   //reads the number from the input field and sets
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
-  }  
+  }
 
   //handles filtering
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value)
-  }  
+  }
 
   //utitlity function to compare objects
   function areTheseObjectsEqual(first, second) {
@@ -131,7 +130,7 @@ const App = () => {
   }
 
   //case insensitive filter
-  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))   
+  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
   return (
     <div>
