@@ -8,12 +8,16 @@ import Persons from './components/Persons';
 
 import personService from "./services/persons";
 
+import Notification from "./components/Notification";
+
 const App = () => {
   //state 
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [message, setMessage] = useState(null)
+
 
   //useeffect
   useEffect(() => {
@@ -54,6 +58,13 @@ const App = () => {
           .update(id, newPerson)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+            //show message
+            setMessage(
+              `Updated number for ${newPerson.name}`
+            )
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)            
           })
       }
     }
@@ -65,6 +76,13 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+            //show message
+            setMessage(
+              `Added ${newPerson.name}`
+            )
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)            
         })
     }
   }
@@ -135,6 +153,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />      
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} ></Filter>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange}
         newNumber={newNumber} handleNumberChange={handleNumberChange}>
