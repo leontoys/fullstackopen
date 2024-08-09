@@ -57,6 +57,22 @@ const App = () => {
     }
   }
 
+  //delete person
+  const deletePerson = (id,name)=>{
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+      .deleteObject(id)
+      .then(deletedPerson=>{
+        //we will compare and remove the deleted person
+        const updatedPersons = persons.filter( (person) => 
+          !areTheseObjectsEqual(deletedPerson,person) //reverse the check for filtering 
+         )
+         //set with updated records
+         setPersons(updatedPersons) 
+      })
+    }    
+  }
+
   //reads the name from the input field and sets
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -112,7 +128,7 @@ const App = () => {
         newNumber={newNumber} handleNumberChange={handleNumberChange}>
       </PersonForm>
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}></Persons>
+      <Persons deletePerson={deletePerson} personsToShow={personsToShow}></Persons>
     </div>
   )
 }
