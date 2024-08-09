@@ -35,16 +35,29 @@ const App = () => {
 
     //check if the person exists in the array of objects
     let personAdded = false
+    let id = ''
     //loop through and check if the person is already added
     persons.forEach(person => {
-      if (areTheseObjectsEqual(newPerson, person)) {
+      console.log(person.name,newPerson.name)
+      if ( (areTheseObjectsEqual(newPerson, person)) 
+         || (person.name === newPerson.name) ) { //added new condition to check if person exists
+        //note - either add this condition or ignore id while comparing
         personAdded = true
-        return
+        id = person.id
+        return 
       }
     }
     )
     if (personAdded) {
-      alert(`${newName} is already added to phonebook`)
+      //if person is already added ask
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one? `))
+      {
+        personService
+        .update(id, newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+        })      
+      }
     }
     else {
       //add new person object
