@@ -3,9 +3,7 @@ const Weather = ({ weather }) => {
   if(weather === null){
     return
   }
-  console.log(weather)
   const icon = `http://openweathermap.org/img/w/${weather.icon}.png`
-  console.log(icon)  
   return (
     <div>
       <h2>Weather in {weather.capital}</h2>

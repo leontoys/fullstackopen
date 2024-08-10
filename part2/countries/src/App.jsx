@@ -26,16 +26,17 @@ const App = () => {
   }
     , [])
 
-  //when a country is selected
+  //when a country is selected, get its weather
   useEffect(() => {
     if (country) {
       axios
         .get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${api_key}`)
         .then(response => {
           //convert from kelvin to celsius
-          console.log(response.data)
           const temperature = response.data.main.temp.toFixed(2) - 273
-          const newWeather = { capital: country.capital, 
+          //set weather
+          const newWeather = { 
+            capital: country.capital, 
             temperature: temperature, 
             wind: response.data.wind.speed, 
             icon: response.data.weather[0].icon }
