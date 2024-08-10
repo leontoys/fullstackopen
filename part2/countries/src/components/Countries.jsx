@@ -1,8 +1,9 @@
-const Countries = ({ name }) => {
+const Countries = ({ name,showCountry }) => {
   return (
-    <li>
-      {name} 
-    </li>
+    <div>
+      {name}
+      <button onClick={showCountry}>show</button>      
+    </div>
   )
 }
 
