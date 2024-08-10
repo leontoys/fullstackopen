@@ -3,7 +3,6 @@ const Country = ({ country }) => {
   if(country === null){
     return
   }
-  console.log(Object.entries(country.languages))
   return (
     <div>
       <h1>{country.name.common}</h1>
