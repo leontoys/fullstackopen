@@ -93,6 +93,7 @@ const App = () => {
       personService
         .create(newPerson)
         .then(returnedPerson => {
+          console.log(returnedPerson)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
@@ -119,6 +120,7 @@ const App = () => {
       personService
         .deleteObject(id)
         .then(deletedPerson => {
+          console.log(deletedPerson)
           //we will compare and remove the deleted person
           const updatedPersons = persons.filter((person) =>
             !areTheseObjectsEqual(deletedPerson, person) //reverse the check for filtering 
