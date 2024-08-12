@@ -72,11 +72,15 @@ const App = () => {
             }, 5000)            
           })
           .catch(error => {         
-            //show message
-            const newMessage = { 
+            //Validation from backend
+          const newMessage = { 
+            message : `${error.response.data.error}` ,
+            className : 'error'
+          }                 
+/*             const newMessage = { 
               message : `Information of '${newPerson.name}' has already been removed from server` ,
               className : 'error'
-            }         
+            }    */      
             setMessage(newMessage)          
             setTimeout(() => {
               const newMessage = { 
@@ -137,11 +141,11 @@ const App = () => {
       personService
         .deleteObject(id)
         .then(deletedPerson => {
-          console.log(deletedPerson)
+          console.log('deleted',deletedPerson)
           //we will compare and remove the deleted person
-          const updatedPersons = persons.filter((person) =>
-            !areTheseObjectsEqual(deletedPerson, person) //reverse the check for filtering 
-          )
+          //change to based on id
+          const updatedPersons = persons.filter((person)=> person.id !== id )
+          console.log('updated',updatedPersons)
           //set with updated records
           setPersons(updatedPersons)
         })      
