@@ -111,6 +111,23 @@ const App = () => {
               setMessage(newMessage)   
             }, 5000)            
         })
+        .catch(error => {     
+          console.log(error.response.data.error)      
+          //show message
+          const newMessage = { 
+            message : `${error.response.data.error}` ,
+            className : 'error'
+          }         
+          setMessage(newMessage)          
+          setTimeout(() => {
+            const newMessage = { 
+              message : null ,
+              className : null
+            }         
+            setMessage(newMessage)  
+          }, 5000) 
+        })             
+        
     }
   }
 
